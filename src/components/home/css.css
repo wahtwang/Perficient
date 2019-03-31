@@ -2,6 +2,54 @@
   min-height: 400px;
   width: 200px;
 }
+
+.router-container {
+  /* width:100%后再padding:2%宽度超了所以要用box把宽度包进去 */
+  box-sizing: border-box;
+  /* 放置padding:2%时里面的元素能不挨边 */
+  padding: 2%;
+  /* 元素要平滑过渡必须在过渡属性里加上position: absolute,因为挨不到一起，但当元素变成ab时，元素接近于inline-block宽度就不是布满100%了 */
+  /* 还不如现在就加上pos:ab */
+  width: 100%;
+}
+
+/* 手机端搜索按钮 */
+.search-btn {
+  position: absolute;
+  background-color: #fff;
+  height: 15px;
+  line-height: 15px;
+  text-align: center;
+  width: 15%;
+  left: 42.5%;
+  bottom: -17px;
+  border: 1px solid #e6e6e6;
+  box-shadow: 0 0 10px #eee;
+  border-bottom-left-radius: 50%;
+  border-bottom-right-radius: 50%;
+  border-top-left-radius: 10%;
+  border-top-right-radius: 10%;
+  display: none;
+  animation: slowTranslate 1.5s infinite alternate;
+  z-index: 2;
+  transition: all 0.4s;
+}
+
+.search-btn:active {
+  background-color: rgba(64, 158, 255, 0.4);
+}
+
+@keyframes slowTranslate {
+  0% {
+    transform: translateY(1px);
+  }
+  100% {
+    transform: translateY(4px);
+  }
+}
+
+/* 手机端搜索按钮结束 */
+
 .i-title span {
   text-transform: capitalize;
   font-size: 27px;
@@ -23,6 +71,9 @@
 
   transition: padding 0.4s;
 }
+.menu-btn i {
+  font-size: 27px;
+}
 .menu-btn {
   color: #409eff;
 }
@@ -38,7 +89,6 @@
 }
 
 .i-title {
-  color: #666;
   font-size: 35px;
   line-height: 60px;
   letter-spacing: 3px;
@@ -61,7 +111,7 @@
   transition: all 0.4s;
 }
 .home-header {
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: #fff;
   border-bottom: solid 1px #e6e6e6;
   padding: 0;
   box-shadow: 0 0 10px #eee;
@@ -88,12 +138,13 @@
 }
 .router-enter-active,
 .router-leave-active {
-  position: absolute;
   transition: 0.5s opacity, 0.5s transform;
 }
-.router-move {
-  transition: all 1s;
+
+.router-leave-active {
+  position: absolute;
 }
+
 .mask {
   position: absolute;
   top: 0;
@@ -130,6 +181,9 @@
 
     transition: all 0.4s;
   }
+  .menu-btn i {
+    font-size: 17px;
+  }
   .menu-btn-col {
     height: 100%;
     text-align: center;
@@ -157,5 +211,17 @@
   }
   .mask {
     display: block;
+  }
+  .search-btn-m {
+    display: block;
+  }
+
+  .search-btn-m-c {
+    opacity: 0;
+    bottom: -50px;
+  }
+
+  .router-container {
+    margin-top: 6%;
   }
 }

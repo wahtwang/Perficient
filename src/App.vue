@@ -66,4 +66,17 @@ a:hover {
   color: #67c23a;
   text-decoration-line: underline;
 }
+.el-input__inner {
+  transition: all 1s;
+}
+
+.el-input__inner:hover {
+  border-color: #ddd !important;
+  box-shadow: 0 0 5px #ddd;
+}
+
+.el-input__inner:focus {
+  border-color: #ddd !important;
+  box-shadow: 0 0 5px #ddd;
+}
 </style>

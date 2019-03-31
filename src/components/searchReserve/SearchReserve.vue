@@ -1,5 +1,5 @@
 <template>
-  <h1>预定界面</h1>
+  <h1>精确查询界面</h1>
 </template>
 
 <script type="text/ecmascript-6">

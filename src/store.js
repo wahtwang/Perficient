@@ -5,12 +5,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-
+    fuzzySearchStr: ''
   },
-  mutations: {
-
-  },
-  actions: {
-
-  }
+  mutations: {},
+  actions: {}
 })
