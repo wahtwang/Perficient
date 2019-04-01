@@ -8,6 +8,19 @@
 </script>
 
 <style>
+tbody > tr:last-child > td {
+  border-bottom: none;
+}
+.el-table .warning-row {
+  background: #fafafa;
+  color: #aaa;
+}
+.warning-row .el-table__expand-column .el-table__expand-icon {
+  display: none;
+}
+::-webkit-scrollbar {
+  display: none;
+}
 html,
 body {
   height: 100%;
@@ -78,5 +91,10 @@ a:hover {
 .el-input__inner:focus {
   border-color: #ddd !important;
   box-shadow: 0 0 5px #ddd;
+}
+@media (max-width: 767px) {
+  html {
+    overflow-y: scroll;
+  }
 }
 </style>
