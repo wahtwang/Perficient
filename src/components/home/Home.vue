@@ -22,11 +22,12 @@
         </el-col>
         <el-col :span="9" :xs="0" style="height:100%;">
           <el-input
+            :class="isShow"
             @keyup.native="fuzzySearch"
             placeholder="输入相关设备信息"
             prefix-icon="el-icon-search"
             size="small"
-            style="margin-top:14px;width:250px"
+            style="margin-top:14px;width:250px;transition: all 1s;"
             v-model="searchStr"
           ></el-input>
         </el-col>
@@ -40,19 +41,30 @@
       <el-aside :class="asideClass">
         <el-menu
           :collapse="isCollapse"
+          :default-active="$route.path"
           :router="true"
           class="el-menu-vertical-demo"
-          default-active="1"
+          ref="menu"
           style="background-color: rgba(255,255,255,0.95); height:100%;"
         >
           <el-menu-item index="/home/index">
             <i class="el-icon-location"></i>
             <span slot="title">首页</span>
           </el-menu-item>
-          <el-menu-item index="/home/searchReserve">
-            <i class="el-icon-search"></i>
-            <span slot="title">查询与预定</span>
-          </el-menu-item>
+          <el-submenu index="/home">
+            <template slot="title">
+              <i class="three-aliyudingchenggong"></i>
+              <span>查询与预定</span>
+            </template>
+            <el-menu-item index="/home/fuzzySearch">
+              <i class="el-icon-zoom-out"></i>
+              <span slot="title">模糊查询</span>
+            </el-menu-item>
+            <el-menu-item index="/home/searchReserve">
+              <i class="el-icon-zoom-in"></i>
+              <span slot="title">精确查询</span>
+            </el-menu-item>
+          </el-submenu>
           <el-menu-item index="/home/personalMsg">
             <i class="three-aliyonghu"></i>
             <span slot="title">个人信息</span>

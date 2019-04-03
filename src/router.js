@@ -5,7 +5,8 @@ import Home from '@/components/home/Home'
 import Index from '@/components/index/Index'
 import SearchReserve from '@/components/searchReserve/SearchReserve'
 import PersonalMsg from '@/components/personalMsg/PersonalMsg'
-import FuzzySearch from '@//components/fuzzySearch/FuzzySearch'
+import FuzzySearch from '@/components/fuzzySearch/FuzzySearch'
+import Order from '@/components/order/Order'
 Vue.use(Router)
 
 let router = new Router({
@@ -28,7 +29,8 @@ let router = new Router({
         { path: 'index', component: Index },
         { path: 'searchReserve', component: SearchReserve },
         { path: 'personalMsg', component: PersonalMsg },
-        { path: 'fuzzySearch', component: FuzzySearch }
+        { path: 'fuzzySearch', component: FuzzySearch },
+        { path: 'order', component: Order }
       ]
     }
   ]

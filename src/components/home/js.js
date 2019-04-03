@@ -5,10 +5,16 @@ export default {
     } else {
       this.searchBtn = 'search-btn search-btn-m'
     }
+    if (to.path === '/home/searchReserve') {
+      this.isShow += ' ' + 'hide'
+    } else {
+      this.isShow = ''
+    }
     next()
   },
   data() {
     return {
+      isShow: '',
       isCollapse: false,
       asideClass: 'home-aside home-aside-click',
       searchBtn: 'search-btn search-btn-m'

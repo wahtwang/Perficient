@@ -5,6 +5,8 @@ import store from './store'
 import '@/plugins/element'
 import '@/requires/axios'
 import '@/assets/icon/iconfont.css'
+import dateTime from 'vue-date-time-m'
+Vue.component('data-time', dateTime)
 Vue.config.productionTip = false
 
 var vm = new Vue({

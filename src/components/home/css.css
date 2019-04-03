@@ -3,6 +3,10 @@
   width: 200px;
 }
 
+.hide {
+  opacity: 0;
+}
+
 .router-container {
   /* width:100%后再padding:2%宽度超了所以要用box把宽度包进去 */
   box-sizing: border-box;
