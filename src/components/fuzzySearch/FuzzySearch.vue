@@ -110,8 +110,8 @@
           <el-collapse-item style="color: #999;" title="当前使用详情">
             <div>
               <p style="color:#E6A23C;font-size:14px;">该设备正在以下项目中使用：</p>
-              <div>
-                <div class="mobileFuzzy mobile-expend">
+              <div :key="val.id" style="margin-bottom: 20px" v-for="val in val.curProjects">
+                <div :key="index" class="mobileFuzzy mobile-expend">
                   <el-form
                     class="demo-table-expand"
                     inline

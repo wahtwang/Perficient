@@ -1,0 +1,129 @@
+/* 用户信息容器 */
+.user-msg-list-container {
+  margin: 0 20%;
+  background-color: #fff;
+  padding: 2%;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #eee;
+}
+/* 用户名字标题 */
+.name-title {
+  font-size: 33px;
+  padding: 10px 3%;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 20px;
+}
+/* 信息标签 */
+.item {
+  position: relative;
+  overflow: hidden;
+  background-color: #fafafa;
+  padding: 15px 0;
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
+.label {
+  float: left;
+  text-align: right;
+  width: 15%;
+  min-width: 80px;
+  font-size: 18px;
+  color: #999;
+}
+.item-val {
+  position: relative;
+  float: left;
+  font-size: 20px;
+  color: #555;
+  text-align: center;
+  width: 70%;
+}
+.item-val .el-input {
+  line-height: 40px;
+  height: 40px;
+  width: 60%;
+}
+/* 修改下拉 */
+.item-expend {
+  height: 40px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 20px;
+  vertical-align: middle;
+  transition: height 0.3s;
+}
+.password {
+  height: 140px;
+}
+.password > div {
+  overflow: hidden;
+}
+.password button {
+  width: 42%;
+}
+.item-expend .label {
+  height: 40px;
+  line-height: 40px;
+  font-size: 15px;
+}
+.item-expend .label {
+  color: #409eff;
+}
+.change {
+  text-align: center;
+  border-top: 1px solid #eee;
+  padding: 0 3%;
+}
+.arrow {
+  color: #ccc;
+  transition: transform 0.3s;
+}
+.rotate {
+  transform: rotate(-180deg);
+}
+.rotatep {
+  transform: rotate(90deg);
+}
+.slideLabel {
+  padding-top: 10px;
+  font-size: 14px;
+  color: #999;
+  cursor: pointer;
+}
+.slideLabel:hover {
+  color: #ccc;
+}
+/* transition */
+.expend-enter-active,
+.expend-leave-active {
+  transition: all 0.3s;
+}
+.expend-enter,
+.expend-leave-to {
+  height: 0;
+  margin-bottom: 0;
+}
+/* 响应式 */
+@media screen and (max-width: 767px) {
+  /* 左右外边距变化 */
+  .user-msg-list-container {
+    margin: 0 0;
+    margin-bottom: 70%;
+  }
+  /* 名字标题字体大小变化 */
+  .name-title {
+    font-size: 25px;
+  }
+  .item-val .el-input {
+    width: 80%;
+  }
+  .password button {
+    width: 60%;
+  }
+  .item-val {
+    font-size: 16px;
+  }
+  .label {
+    font-size: 14px;
+  }
+}

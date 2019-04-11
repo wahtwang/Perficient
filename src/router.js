@@ -7,6 +7,7 @@ import SearchReserve from '@/components/searchReserve/SearchReserve'
 import PersonalMsg from '@/components/personalMsg/PersonalMsg'
 import FuzzySearch from '@/components/fuzzySearch/FuzzySearch'
 import Order from '@/components/order/Order'
+import ChangePassword from '@/components/personalMsg/changePassword/ChangePassword'
 Vue.use(Router)
 
 let router = new Router({
@@ -28,7 +29,11 @@ let router = new Router({
       children: [
         { path: 'index', component: Index },
         { path: 'searchReserve', component: SearchReserve },
-        { path: 'personalMsg', component: PersonalMsg },
+        {
+          path: 'personalMsg',
+          component: PersonalMsg,
+          children: [{ path: 'changePassword', component: ChangePassword }]
+        },
         { path: 'fuzzySearch', component: FuzzySearch },
         { path: 'order', component: Order }
       ]

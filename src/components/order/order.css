@@ -1,0 +1,88 @@
+.equipment-main {
+  overflow: hidden;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #eee;
+  padding: 2%;
+}
+.title-name span {
+  font-size: 24px;
+}
+.item-group {
+  margin-top: 10px;
+  overflow: hidden;
+  border-radius: 5px;
+}
+.item {
+  float: left;
+  background-color: #fafafa;
+  padding: 15px;
+  border-radius: 5px;
+  margin: 2%;
+}
+.key {
+  color: #409eff;
+}
+.val {
+  color: #444;
+  margin-left: 30px;
+}
+/* 被预定时间段详细界面 */
+.beOlder {
+  float: right;
+  overflow: hidden;
+  background-color: #fff;
+  margin-top: 2%;
+  padding: 2%;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #eee;
+  width: 50%;
+}
+.project-item-group {
+  background-color: #fafafa;
+  margin-top: 15px;
+  padding: 2%;
+  border-radius: 5px;
+}
+.project-item {
+  overflow: hidden;
+  padding: 10px 2%;
+  text-align: center;
+}
+.project-val {
+  display: inline-block;
+  width: 60%;
+  min-width: 140px;
+  color: #409eff;
+  text-align: center;
+}
+.project-key {
+  display: inline-block;
+  text-align: left;
+  min-width: 80px;
+  text-align: center;
+}
+.project-item span {
+  margin-bottom: 10px;
+}
+/* 预定界面 */
+.older-container {
+  float: right;
+  overflow: hidden;
+  background-color: #fff;
+  margin-top: 2%;
+  padding: 2%;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #eee;
+  margin-left: 2%;
+  width: 40%;
+}
+
+@media screen and (max-width: 767px) {
+  .beOlder {
+    width: 98%;
+  }
+  .older-container {
+    width: 96%;
+  }
+}

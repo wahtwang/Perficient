@@ -89,6 +89,7 @@ section {
 html a {
   color: #409eff;
   text-decoration: none;
+  cursor: pointer;
 }
 a:hover {
   color: #67c23a;

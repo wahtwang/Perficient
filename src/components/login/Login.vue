@@ -61,11 +61,11 @@ export default {
       },
       valLoginMsg: {
         user_id: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' },
+          { required: true, message: '请输入账号', trigger: 'blur' },
           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ],
         password: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' },
+          { required: true, message: '请输入密码', trigger: 'blur' },
           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]
       }
@@ -81,7 +81,8 @@ export default {
       } catch (err) {
         this.$message({
           message: err,
-          type: 'error'
+          type: 'error',
+          duration: 1000
         })
       }
       if (res.data.meta.status === 200) {
@@ -103,7 +104,8 @@ export default {
       } else {
         this.$message({
           message: res.msg,
-          type: 'error'
+          type: 'error',
+          diration: 1000
         })
       }
     },
