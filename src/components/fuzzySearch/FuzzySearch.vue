@@ -183,13 +183,12 @@ export default {
   },
   methods: {
     async getendChangePageList(page = 1) {
-      var res = await this.$http.get('/searchEquip', {
-        params: {
+      var res = await this.$http.get('/user/searchEquip', {
+        data: {
           equip: this.equip || '',
           page: page,
           size: this.size
-        },
-        headers: { Authorization: 'Basic' + localStorage.getItem('token') }
+        }
       })
       const { data, meta } = res.data
       if (meta.status === 200) {

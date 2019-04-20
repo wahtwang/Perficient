@@ -69,9 +69,17 @@
             <i class="three-aliyonghu"></i>
             <span slot="title">个人信息</span>
           </el-menu-item>
-          <el-menu-item index="4">
+          <el-menu-item index="/home/equipInfo">
             <i class="el-icon-setting"></i>
-            <span slot="title">导航四</span>
+            <span slot="title">设备信息</span>
+          </el-menu-item>
+          <el-menu-item index="/home/permissionEdit">
+            <i class="el-icon-setting"></i>
+            <span slot="title">修改权限</span>
+          </el-menu-item>
+          <el-menu-item index="/home/projectInfo">
+            <i class="el-icon-setting"></i>
+            <span slot="title">项目信息</span>
           </el-menu-item>
         </el-menu>
       </el-aside>

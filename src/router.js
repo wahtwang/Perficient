@@ -8,6 +8,9 @@ import PersonalMsg from '@/components/personalMsg/PersonalMsg'
 import FuzzySearch from '@/components/fuzzySearch/FuzzySearch'
 import Order from '@/components/order/Order'
 import ChangePassword from '@/components/personalMsg/changePassword/ChangePassword'
+import EquipInfo from '@/components/manage/EquipInfo'
+import PermissionEdit from '@/components/manage/PermissionEdit'
+import ProjectInfo from '@/components/manage/ProjectInfo'
 Vue.use(Router)
 
 let router = new Router({
@@ -35,7 +38,10 @@ let router = new Router({
           children: [{ path: 'changePassword', component: ChangePassword }]
         },
         { path: 'fuzzySearch', component: FuzzySearch },
-        { path: 'order', component: Order }
+        { path: 'order', component: Order },
+        { path: 'equipInfo', component: EquipInfo },
+        { path: 'permissionEdit', component: PermissionEdit },
+        { path: 'projectInfo', component: ProjectInfo }
       ]
     }
   ]
