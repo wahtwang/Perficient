@@ -14,6 +14,7 @@ export default {
   },
   data() {
     return {
+      name: localStorage.getItem('name'),
       isShow: '',
       isCollapse: false,
       asideClass: 'home-aside home-aside-click',
@@ -24,12 +25,12 @@ export default {
     this.closeCollapse()
   },
   computed: {
-    searchStr: {
+    equip: {
       get: function() {
-        return this.$store.state.fuzzySearchStr
+        return this.$store.state.fuzzyEquip
       },
       set: function(val) {
-        this.$store.state.fuzzySearchStr = val
+        this.$store.state.fuzzyEquip = val
       }
     }
   },
@@ -41,7 +42,7 @@ export default {
       this.$router.push('/home/fuzzySearch')
     },
     outLogin() {
-      //删除本地session
+      localStorage.clear()
       this.$router.push('/')
     },
     closeCollapse() {

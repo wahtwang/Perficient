@@ -28,12 +28,12 @@
             prefix-icon="el-icon-search"
             size="small"
             style="margin-top:14px;width:250px;transition: all 1s;"
-            v-model="searchStr"
+            v-model="equip"
           ></el-input>
         </el-col>
         <el-col :span="3" :xs="0" style="border-left:1px solid #e6e6e6;height:100%;text-align:center;line-height:60px;">
-          <span>waht</span>
-          <a @click="$router.push('/')" href="jiavascript:;" style="margin-left:5px;">注销</a>
+          <span>{{name ? name:'waht'}}</span>
+          <a @click="outLogin" href="jiavascript:;" style="margin-left:5px;">注销</a>
         </el-col>
       </el-row>
     </el-header>

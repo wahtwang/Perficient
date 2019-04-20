@@ -11,20 +11,13 @@
       >
         <span style="font-size: 37px; color: #000; letter-spacing: 10px; font-weight: 400;">登录</span>
         <el-form :model="loginMsg" :rules="valLoginMsg" label-position="top" label-width="80px" ref="loginMsg" style="margin-top: 30px;">
-          <el-form-item prop="user_id" style="margin-bottom: 40px;">
-            <el-input clearable placeholder="请输入用户名" v-model="loginMsg.user_id"></el-input>
+          <el-form-item prop="username" style="margin-bottom: 40px;">
+            <el-input clearable placeholder="请输入用户名" v-model="loginMsg.username"></el-input>
           </el-form-item>
           <el-form-item prop="password">
             <el-input clearable placeholder="请输入密码" v-model="loginMsg.password"></el-input>
           </el-form-item>
           <div class="division"></div>
-          <el-form-item prop="promissions" style="margin-bottom: 40px;">
-            <el-radio-group class="login-radio" v-model="loginMsg.promissions">
-              <el-radio-button label="1">普通用户</el-radio-button>
-              <el-radio-button label="2">管理</el-radio-button>
-              <el-radio-button label="3">系统管理</el-radio-button>
-            </el-radio-group>
-          </el-form-item>
           <el-form-item>
             <el-button @click="subLoginMsg" style="width:100%;" type="primary">登陆</el-button>
           </el-form-item>
@@ -55,27 +48,37 @@ export default {
   data() {
     return {
       loginMsg: {
-        user_id: '',
-        password: '',
-        promissions: 1
+        username: '',
+        password: ''
       },
       valLoginMsg: {
-        user_id: [
+        username: [
           { required: true, message: '请输入账号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          {
+            pattern: /^\d{6}$/,
+            message: '账号格式不正确',
+            trigger: 'blur'
+          }
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          {
+            min: 8,
+            max: 15,
+            message: '长度在 8 到 15 个字符',
+            trigger: 'blur'
+          },
+          {
+            pattern: /[a-z]+[0-9]+/,
+            message: '密码由数字和小写字母组成',
+            trigger: 'blur'
+          }
         ]
       }
     }
   },
   methods: {
     async login() {
-      if (this.loginMsg.password === 'asd' && this.loginMsg.user_id === 'asd') {
-        this.$router.push('/home/index')
-      }
       try {
         var res = await this.$http.post('/login', this.loginMsg)
       } catch (err) {
@@ -85,8 +88,11 @@ export default {
           duration: 1000
         })
       }
+      console.log(res)
       if (res.data.meta.status === 200) {
-        switch (this.loginMsg.promissions) {
+        localStorage.setItem('token', res.data.data.token)
+        localStorage.setItem('name', res.data.data.username)
+        switch (res.data.data.promissions) {
           case 1:
             {
               this.$router.push('/home/index?p=1')
@@ -98,12 +104,12 @@ export default {
             }
             break
           default: {
-            this.$router.push('/home/index?p=2')
+            this.$router.push('/home/index?p=3')
           }
         }
       } else {
         this.$message({
-          message: res.msg,
+          message: res.data.meta.message,
           type: 'error',
           diration: 1000
         })
@@ -113,21 +119,6 @@ export default {
       this.$refs.loginMsg.validate(valid => {
         if (valid) {
           this.login()
-          // switch (this.loginMsg.promissions) {
-          //   case 1:
-          //     {
-          //       this.$router.push('/home/index?p=1')
-          //     }
-          //     break
-          //   case 2:
-          //     {
-          //       this.$router.push('/home/index?p=2')
-          //     }
-          //     break
-          //   default: {
-          //     this.$router.push('/home/index?p=2')
-          //   }
-          // }
         } else {
           return false
         }
