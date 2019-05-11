@@ -1,7 +1,8 @@
 <template>
 <div style="width:100%;">
   <div style="width:100%;">
-    <el-table :data="tableData" :highlight-current-row="isHighlight" class="tb-edit" style="width: 100%;" @row-click="handleCurrentChange">
+    <el-table :data="tableData" :highlight-current-row="isHighlight" class="tb-edit" 
+    style="width: 100%;" @row-click="handleCurrentChange" v-loading="loading">
     <el-table-column
       label="用户编号"
       width="180">
@@ -20,10 +21,10 @@
       width="120">
       <template slot-scope="scope">
         <el-popover trigger="hover" placement="top">
-          <p>电话: {{ scope.row.phone }}</p>
+          <!-- <p>电话: {{ scope.row.phone }}</p> -->
           <p>邮箱: {{ scope.row.email }}</p>
           <div slot="reference" class="name-wrapper">
-            <el-tag size="medium">{{ scope.row.nickname }}</el-tag>
+            <el-tag size="medium">{{ scope.row.name }}</el-tag>
           </div>
         </el-popover>
       </template>
@@ -42,14 +43,14 @@
     </el-table-column>
 
      <el-table-column
-      label="项目组"
+      label="联系方式"
       width="130">
       <template slot-scope="scope">
         <span v-if="scope.row.isSet">
-        <el-input size="small" v-model="scope.row.group" placeholder="请输入内容" @change="handleEdit(scope.$index, scope.row)">
+        <el-input size="small" v-model="scope.row.phone" placeholder="请输入内容" @change="handleEdit(scope.$index, scope.row)">
         </el-input> 
         </span>
-        <span v-else style="padding-left: 20px;">{{scope.row.group}}</span>
+        <span v-else style="padding-left: 20px;">{{scope.row.phone}}</span>
       </template>
     </el-table-column>
 
@@ -71,17 +72,17 @@
        >
       <template slot-scope="scope">
         <el-switch v-if="scope.row.isSet"
-          v-model="scope.row.on"
-          active-value="1"
-          inactive-value="0"
+          v-model="scope.row.permissions"
+          :active-value="1"
+          :inactive-value="0"
           :disabled="isSwitchDisabled"
           active-text="管理员"
           inactive-text="普通用户">
         </el-switch>
         <el-switch v-else
-          v-model="scope.row.on"
-          active-value="1"
-          inactive-value="0"
+          v-model="scope.row.permissions"
+          :active-value="1"
+          :inactive-value="0"
           :disabled=true
           active-text="管理员"
           inactive-text="普通用户">
@@ -128,7 +129,7 @@
           <el-button
           size="mini"
           type="danger"
-          @click="deleteRow(scope.$index, tableData)"
+          @click="deleteRow(scope.$index, scope.row)"
          >删除</el-button>
       </template>
     </el-table-column>
@@ -138,12 +139,11 @@
 
   <div class="block" align="center" style="margin-top:20px;">
     <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page.sync="currentPage3"
-      :page-size="100"
-      layout="prev, pager, next, jumper"
-      :total="1000">
+      @current-change="getTableData(endChangePage)"
+      :current-page.sync="endChangePage"
+      :page-count="pageCount"
+      :page-size="size"
+      layout="prev, pager, next, jumper">
     </el-pagination>
     <!-- <span class="demonstration">点击可直接前往</span> -->
   </div>
@@ -155,6 +155,9 @@
 
 <script>
 export default {
+    created() {
+      this.getTableData();
+    },
     data(){
         return{
             currentPage1: 5,
@@ -162,92 +165,99 @@ export default {
             currentPage3: 5,
             currentPage4: 4,
 
+            loading:true,
             isHighlight:false,
             isSwitchDisabled:true,
             isCancelBtnDisabled:true,
 
-            tableData: [{
-            user_id: '5000001',
-            nickname: '王煜辉',
-            email: '77839483@qq.com',
-            phone:'13728943984',
-            group:'项目组二',
-            department:'实验部',
-            sex:'先生',
-            on: '0',
-            isSet:false
-            }, {
-            user_id: '5000002',
-            nickname: '杨凯',
-            email: 'dfdsfdks@qq.com',
-            phone:'13728943984',
-            group:'项目组二',
-            department:'技术部',
-            sex:'先生',
-            on: '1',
-            isSet:false
-            }, {
-            user_id: '5000003',
-            nickname: '侯家炜',
-            email: '43k5nk43@qq.com',
-            phone:'13728943984',
-            group:'项目组二',
-            department:'办公部',
-            sex:'先生',
-            on: '0',
-            isSet:false
-            }, {
-            user_id: '5000004',
-            nickname: '叶希臣',
-            email: '4949632@qq.com',
-            phone:'13728943984',
-            group:'项目组二',
-            department:'技术部',
-            sex:'先生',
-            on: '0',
-            isSet:false
-            },
-            {
-            user_id: '5000001',
-            nickname: '王煜辉',
-            email: '77839483@qq.com',
-            phone:'13728943984',
-            group:'项目组二',
-            department:'实验部',
-            sex:'先生',
-            on: '0',
-            isSet:false
-            }, {
-            user_id: '5000002',
-            nickname: '杨凯',
-            email: 'dfdsfdks@qq.com',
-            phone:'13728943984',
-            group:'项目组二',
-            department:'技术部',
-            sex:'先生',
-            on: '1',
-            isSet:false
-            }, {
-            user_id: '5000003',
-            nickname: '侯家炜',
-            email: '43k5nk43@qq.com',
-            phone:'13728943984',
-            group:'项目组二',
-            department:'办公部',
-            sex:'先生',
-            on: '0',
-            isSet:false
-            }, {
-            user_id: '5000004',
-            nickname: '叶希臣',
-            email: '4949632@qq.com',
-            phone:'13728943984',
-            group:'项目组二',
-            department:'技术部',
-            sex:'先生',
-            on: '0',
-            isSet:false
-            }],
+            pageCount: 1,
+            endChangePage: 1,
+            size: 9,
+
+            tableData:[],
+
+            // tableData: [{
+            // user_id: '5000001',
+            // name: '王煜辉',
+            // email: '77839483@qq.com',
+            // phone:'13728943984',
+            // group:'项目组二',
+            // department:'实验部',
+            // sex:'先生',
+            // state: '0',
+            // isSet:false
+            // }, {
+            // user_id: '5000002',
+            // name: '杨凯',
+            // email: 'dfdsfdks@qq.com',
+            // phone:'13728943984',
+            // group:'项目组二',
+            // department:'技术部',
+            // sex:'先生',
+            // state: '1',
+            // isSet:false
+            // }, {
+            // user_id: '5000003',
+            // name: '侯家炜',
+            // email: '43k5nk43@qq.com',
+            // phone:'13728943984',
+            // group:'项目组二',
+            // department:'办公部',
+            // sex:'先生',
+            // state: '0',
+            // isSet:false
+            // }, {
+            // user_id: '5000004',
+            // name: '叶希臣',
+            // email: '4949632@qq.com',
+            // phone:'13728943984',
+            // group:'项目组二',
+            // department:'技术部',
+            // sex:'先生',
+            // state: '0',
+            // isSet:false
+            // },
+            // {
+            // user_id: '5000001',
+            // name: '王煜辉',
+            // email: '77839483@qq.com',
+            // phone:'13728943984',
+            // group:'项目组二',
+            // department:'实验部',
+            // sex:'先生',
+            // state: '0',
+            // isSet:false
+            // }, {
+            // user_id: '5000002',
+            // name: '杨凯',
+            // email: 'dfdsfdks@qq.com',
+            // phone:'13728943984',
+            // group:'项目组二',
+            // department:'技术部',
+            // sex:'先生',
+            // state: '1',
+            // isSet:false
+            // }, {
+            // user_id: '5000003',
+            // name: '侯家炜',
+            // email: '43k5nk43@qq.com',
+            // phone:'13728943984',
+            // group:'项目组二',
+            // department:'办公部',
+            // sex:'先生',
+            // state: '0',
+            // isSet:false
+            // }, {
+            // user_id: '5000004',
+            // name: '叶希臣',
+            // email: '4949632@qq.com',
+            // phone:'13728943984',
+            // group:'项目组二',
+            // department:'技术部',
+            // sex:'先生',
+            // state: '0',
+            // isSet:false
+            // }],
 
       
         }
@@ -292,11 +302,13 @@ export default {
                             return false;
                         }
                         else{
+                            this.updateTableData(row);
                             this.$message({
                               type: 'success',
                               message: '保存成功!'
                             });
                             // this.isCancelBtnDisabled=true;
+                            row.isSet = false;
                             }
                     }
                     console.log(index, row);
@@ -313,14 +325,22 @@ export default {
               console.log(`当前页: ${val}`);
             },
 
-             deleteRow(index,rows) {
-            this.$confirm('此操作将永久删除该记录项, 是否继续?', '提示', {
+             deleteRow(index,row) {
+               
+               console.log(index,row);
+            this.$confirm('此操作将永久删除  '+row.user_id+'  '+row.name+'  员工, 是否继续?', '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',
               type: 'warning'
             }).then(() => {
               // deleteRow(scope.$index, tableData);
-               rows.splice(index, 1);
+              //  row.splice(index, 1);
+              var list = {
+                state: row.state,
+                user_id: row.user_id
+              }
+              console.log(list);
+              this.deleteTableData(list);
               this.$message({
                 type: 'success',
                 message: '删除成功!'
@@ -331,7 +351,65 @@ export default {
                 message: '已取消删除'
               });          
             });
-        }
+            },
+
+            // --------用户权限基础信息数据请求--------
+            async getTableData(page = 1){
+                var res = {};
+                
+                res = await this.$http.get('/admin/searchAllUser',{
+                params: {
+                  page: page,
+                  size: this.size
+                },
+                // headers: { Authorization: 'bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NTU4MTE3MzAsInVzZXJuYW1lIjoiODg4ODg4In0.hePZfgJ_1mj3LV_BpF8JRnRAFPFueh2JbqyrQxFDAyk' + localStorage.getItem('token') }
+                });
+
+                const { data, meta } = res.data
+                console.log(data.users);
+                if (meta.status === 200) {
+                  
+                    let array=[];
+                    data.users.map((item,index)=>{
+                      array.push(
+                          Object.assign({},item,{isSet:false})
+                    )
+                    return array;
+                  })
+                  this.tableData = array;
+                  this.pageCount = data.totalPages;
+                  // 有时修改数据后要往后退一页，或者到最后一页，但请求之前total数据没更新，如果新一页多了一条数据，就会跳不过去，所以跳转页面还要在最后重新跳转
+                  this.endChangePage = page;
+                  this.loading = false;
+                }
+            },
+
+
+            // --------用户信息修改请求--------
+            async updateTableData(row){
+                var res = {};
+                //console.log(this.row);
+                res = await this.$http.put('/user/changeUserInfor',row);
+
+                const { data, meta } = res.data
+                if (meta.status === 200) {
+                  this.getTableData();
+                  
+                }
+            },
+
+            // --------用户信息删除请求--------
+            async deleteTableData(list){
+                var res = {};
+                //console.log(this.row);
+                res = await this.$http.delete('/admin/deleteUser',list);
+
+                const { data, meta } = res.data
+                if (meta.status === 200) {
+                  this.getTableData();
+                  
+                }
+            }
      }
   }
 </script>

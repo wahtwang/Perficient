@@ -53,18 +53,22 @@
           </el-menu-item>
           <el-submenu index="/home">
             <template slot="title">
-              <i class="three-aliyudingchenggong"></i>
+              <i class="three-aliyudingchenggong" style="font-size:17px;"></i>
               <span>查询与预定</span>
             </template>
             <el-menu-item index="/home/fuzzySearch">
               <i class="el-icon-zoom-out"></i>
-              <span slot="title">模糊查询</span>
+              <span slot="title">关键字查询</span>
             </el-menu-item>
             <el-menu-item index="/home/searchReserve">
               <i class="el-icon-zoom-in"></i>
               <span slot="title">精确查询</span>
             </el-menu-item>
           </el-submenu>
+          <el-menu-item index="/home/hasOlder">
+            <i class="three-aliyundanyuyue" style="font-weight:1000;"></i>
+            <span slot="title">已预约</span>
+          </el-menu-item>
           <el-menu-item index="/home/personalMsg">
             <i class="three-aliyonghu"></i>
             <span slot="title">个人信息</span>
@@ -74,12 +78,24 @@
             <span slot="title">设备信息</span>
           </el-menu-item>
           <el-menu-item index="/home/permissionEdit">
-            <i class="el-icon-setting"></i>
+            <i class="three-aliquanxian"></i>
             <span slot="title">修改权限</span>
           </el-menu-item>
           <el-menu-item index="/home/projectInfo">
-            <i class="el-icon-setting"></i>
+            <i class="three-alixiangmuguanli"></i>
             <span slot="title">项目信息</span>
+          </el-menu-item>
+          <el-menu-item index="/home/backUp">
+            <i class="three-alishujubeifenhuifu" style="font-weight:1000;"></i>
+            <span slot="title">备份</span>
+          </el-menu-item>
+          <el-menu-item index="/home/log">
+            <i class="el-icon-document"></i>
+            <span slot="title">日志</span>
+          </el-menu-item>
+          <el-menu-item index="/home/dataDetails">
+            <i class="three-alishuju"></i>
+            <span slot="title">后台数据</span>
           </el-menu-item>
         </el-menu>
       </el-aside>
@@ -87,7 +103,7 @@
         <div @click="closeCollapse" class="mask" v-show="!isCollapse"></div>
       </transition>
       <!-- 使router-view width:100%的时候能对照父元素宽度，并且在位移时去掉底部滚动条，并且把原本的内边距去掉，因为子元素为ab时候会从外框定位 -->
-      <el-main style="position:relative;padding: 0;overflow-x: hidden;">
+      <el-main ref="main" style="position:relative;padding: 0;overflow-x: hidden;">
         <transition name="router">
           <router-view class="router-container"/>
         </transition>

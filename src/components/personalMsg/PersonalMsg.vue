@@ -21,13 +21,13 @@
           <div>
             <span class="label">旧密码:</span>
             <span class="item-val">
-              <el-input placeholder="请输入原密码" size="small" v-model="oldPasswordText"></el-input>
+              <el-input placeholder="请输入原密码" size="small" v-model="oldPassword"></el-input>
             </span>
           </div>
           <div>
             <span class="label">新密码:</span>
             <span class="item-val">
-              <el-input placeholder="请输入新密码" size="small" v-model="newPasswordText"></el-input>
+              <el-input placeholder="请输入新密码" size="small" v-model="newPassword"></el-input>
             </span>
           </div>
           <div style="text-align:center;margin-top:20px;">
@@ -83,9 +83,10 @@
 
 <script type="text/ecmascript-6">
 import { constants } from 'crypto'
+import { type } from 'os'
 export default {
   created() {
-    //this.getUserMsg()
+    this.getUserMsg()
   },
   data() {
     return {
@@ -101,8 +102,8 @@ export default {
         email: '603225315@qq.com'
       },
       passwordArrowClass: 'el-icon-arrow-right arrow',
-      oldPasswordText: '',
-      newPasswordText: '',
+      oldPassword: '',
+      newPassword: '',
       slideExpend: false,
       arrowClass: 'el-icon-arrow-down arrow',
       slideDownText: '修改个人资料',
@@ -124,7 +125,10 @@ export default {
     async submitNewPassword() {
       if (this.slideExpendPassword) {
         try {
-          var res = await this.$http.put('/updatePassword', this.changeUserMsg)
+          var res = await this.$http.put('/user/updateUserpasswd', {
+            oldPassword: this.oldPassword,
+            newPassword: this.newPassword
+          })
         } catch (err) {
           this.$message({
             message: '修改失败' + err,
@@ -137,14 +141,25 @@ export default {
             .toString()
             .slice(err.toString().length - 3, err.toString().length)
         }
-        if (res.data.meta === 200) {
-          this.this.slideExpendPassword = false
+        if (res.data.meta.status === 200) {
+          this.slideExpendPassword = false
           if (this.slideExpendPassword) {
             this.passwordArrowClass =
               'el-icon-arrow-down arrow' + ' ' + 'rotate'
           } else {
             this.passwordArrowClass = 'el-icon-arrow-down arrow'
           }
+          this.$message({
+            message: res.data.meta.message,
+            type: 'success',
+            duration: 1000
+          })
+        } else {
+          this.$message({
+            message: res.data.meta.message,
+            type: 'error',
+            duration: 1000
+          })
         }
       }
     },
@@ -165,10 +180,12 @@ export default {
     },
     async getUserMsg() {
       try {
-        var res = await this.$http.get('/userMsg')
+        var res = await this.$http.get('/user/getUserInfor', {
+          params: { user_id: 888888 }
+        })
       } catch (err) {
         this.$message({
-          message: '修改失败' + err,
+          message: '请检查网络问题' + err,
           type: 'error',
           duration: 1000
         })
@@ -176,7 +193,10 @@ export default {
     },
     async updateUserMsg() {
       try {
-        var res = await this.$http.put('/updateUserMsg', this.changeUserMsg)
+        var res = await this.$http.put(
+          'user/changeUserInfor',
+          this.changeUserMsg
+        )
       } catch (err) {
         this.$message({
           message: '修改失败' + err,

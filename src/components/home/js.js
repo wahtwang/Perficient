@@ -1,5 +1,13 @@
 export default {
   beforeRouteUpdate(to, from, next) {
+    let timer = setInterval(() => {
+      if (this.$refs.main.$el.scrollTop > 50) {
+        this.$refs.main.$el.scrollTop -= 50
+      } else {
+        this.$refs.main.$el.scrollTop = 0
+        clearInterval(timer)
+      }
+    }, 5)
     if (to.path === '/home/fuzzySearch') {
       this.searchBtn += ' ' + 'search-btn-m-c'
     } else {
@@ -42,8 +50,19 @@ export default {
       this.$router.push('/home/fuzzySearch')
     },
     outLogin() {
-      localStorage.clear()
-      this.$router.push('/')
+      this.$confirm('确定退出登录?', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '登出成功'
+        })
+        this.$store.state.fuzzyEquip = ''
+        localStorage.clear()
+        this.$router.push('/')
+      })
     },
     closeCollapse() {
       if (window.innerWidth >= 768) {

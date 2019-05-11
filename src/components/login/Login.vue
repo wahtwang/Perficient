@@ -79,6 +79,12 @@ export default {
   },
   methods: {
     async login() {
+      // if (
+      //   this.loginMsg.username === '888888' &&
+      //   this.loginMsg.password === 'cs888888'
+      // ) {
+      //   this.$router.push('/home/index')
+      // }
       try {
         var res = await this.$http.post('/login', this.loginMsg)
       } catch (err) {
@@ -88,7 +94,6 @@ export default {
           duration: 1000
         })
       }
-      console.log(res)
       if (res.data.meta.status === 200) {
         localStorage.setItem('token', res.data.data.token)
         localStorage.setItem('name', res.data.data.username)

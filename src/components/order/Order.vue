@@ -11,7 +11,7 @@
         </div>
         <div class="item">
           <span class="key">类型:</span>
-          <span class="val">{{tableData.class}}</span>
+          <span class="val">{{tableData.variety}}</span>
         </div>
         <div class="item">
           <span class="key">品牌:</span>
@@ -23,7 +23,7 @@
         </div>
         <div class="item">
           <span class="key">负责人:</span>
-          <span class="val">{{tableData.add_user_name}}</span>
+          <span class="val">{{tableData.principal}}</span>
         </div>
         <div class="item">
           <span class="key">状态:</span>
@@ -51,24 +51,24 @@
       <div class="title-name">
         <span>{{tableData|state2}}</span>
       </div>
-      <div :key="index" class="project-item-group" v-for="(val,index) in tableData.curProjects">
-        <p class="key">{{index+1}}</p>
+      <div :key="index" class="project-item-group" v-for="(val,index) in tableData.reseverInfos">
+        <p class="key">#{{index+1}}</p>
         <div>
           <div class="project-item">
             <span class="project-key">项目名：</span>
-            <span class="project-val">{{val.curProjectName}}</span>
+            <span class="project-val">{{val.project_name}}</span>
           </div>
           <div class="project-item">
             <span class="project-key">时间段：</span>
-            <span class="project-val">{{val.curProjectStartTime}}</span>
+            <span class="project-val">{{val.r_starts}}</span>
           </div>
           <div class="project-item">
             <span class="project-key">至：</span>
-            <span class="project-val">{{val.curProjectEndTime}}</span>
+            <span class="project-val">{{val.r_end}}</span>
           </div>
           <div class="project-item">
             <span class="project-key">预约人：</span>
-            <span class="project-val">{{val.orderPerson}}</span>
+            <span class="project-val">{{val.name}}</span>
           </div>
         </div>
       </div>
@@ -80,26 +80,38 @@
 import { constants } from 'crypto'
 export default {
   filters: {
-    state(row) {
-      if (row.state) {
-        if (row.isFree) {
-          return '空闲'
+    state(tableData) {
+      if (tableData.state) {
+        if (tableData.state === 0) {
+          return '报废'
+        } else if (tableData.state === 2) {
+          return '维修'
+        } else if (tableData.state === 3) {
+          return '停用'
         } else {
-          return '使用中'
+          if (tableData.free) {
+            return '未被使用'
+          } else {
+            return '正在使用'
+          }
         }
-      } else {
-        return '被禁用'
       }
     },
-    state2(row) {
-      if (row.state) {
-        if (row.isFree) {
-          return '设备现阶段空闲'
+    state2(tableData) {
+      if (tableData.state) {
+        if (tableData.state === 0) {
+          return '该设备已报废'
+        } else if (tableData.state === 2) {
+          return '该设备正在维修中'
+        } else if (tableData.state === 3) {
+          return '该设备已被停用'
         } else {
-          return '设备正（将）在以下项目中使用'
+          if (tableData.reseverInfos == 0) {
+            return '设备现阶段空闲'
+          } else {
+            return '设备正（将）在以下项目中使用'
+          }
         }
-      } else {
-        return '设备已被禁用'
       }
     }
   },
@@ -130,37 +142,24 @@ export default {
         startTime: '',
         endTime: ''
       },
+      freeStyle: {},
       tableData: {
         id: '1',
         equip_name: '颈椎腰椎牵引器',
         model: 'SM-9500',
-        class: '医疗康复设备',
+        variety: '医疗康复设备',
         location: '第二实验室',
-        add_user_name: '王强',
+        principal: '王强',
         brand: '耐克牌设备',
         state: true,
-        isFree: false,
-        curProjects: [
+        free: false,
+        reseverInfos: [
           {
-            id: 1,
-            curProjectName: '数字化技术测试',
-            curProjectStartTime: '1999-08-28 08:00',
-            curProjectEndTime: '2019-05-28 08:00',
-            orderPerson: '王煜辉'
-          },
-          {
-            id: 2,
-            curProjectName: '数字化技术测试',
-            curProjectStartTime: '1999-08-28 08:00',
-            curProjectEndTime: '2019-05-28 08:00',
-            orderPerson: '王泽烽'
-          },
-          {
-            id: 3,
-            curProjectName: '数字化技术测试',
-            curProjectStartTime: '1999-08-28 08:00',
-            curProjectEndTime: '2019-05-28 08:00',
-            orderPerson: '寝室长'
+            r_id: 1,
+            project_name: '数字化技术测试',
+            r_starts: '1999-08-28 08:00',
+            r_end: '2019-05-28 08:00',
+            name: '王煜辉'
           }
         ]
       }

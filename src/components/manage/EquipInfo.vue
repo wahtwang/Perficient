@@ -3,34 +3,35 @@
 <div>
   <el-row :gutter="10" class="input-header" style="width:100%;" type="flex" justify="center">
       
-      <el-col><el-input v-model="equip_id" placeholder="设备编号" size="small"></el-input></el-col>
+      <el-col><el-input v-model="equip_number" placeholder="设备编号" size="small"></el-input></el-col>
       <el-col><el-input v-model="equip_name" placeholder="设备名称" size="small"></el-input></el-col>
       <el-col><el-input v-model="brand" placeholder="设备品牌" size="small"></el-input></el-col>
       <el-col><el-input v-model="model" placeholder="设备型号" size="small"></el-input></el-col>
       <el-col><el-input v-model="location" placeholder="使用位置" size="small"></el-input></el-col>
-      <el-col><el-button type="primary" size="small" @click="addRow">确定添加</el-button></el-col>
+      <el-col><el-button type="primary" size="small" @click="addTableData(1)">确定添加</el-button></el-col>
       
   </el-row>
 </div>
 <div style="width:100%;">
   <div style="width:100%;">
-    <el-table :data="tableData"  class="tb-edit" style="width: 100%;"  @row-click="handleCurrentChange">
+    <el-table :data="tableData"  class="tb-edit" style="width: 100%;"  
+    @row-click="handleCurrentChange" v-loading="loading">
     <el-table-column
       label="设备编号"
       width="120">
       <template slot-scope="scope">
         <i class="el-icon-setting"></i>
         <span v-if="scope.row.isSet">
-            <el-input size="small" v-model="scope.row.equip_id" placeholder="请输入内容" @change="handleEdit(scope.$index, scope.row)">
+            <el-input size="small" v-model="scope.row.equip_number" placeholder="请输入内容" @change="handleEdit(scope.$index, scope.row)">
             </el-input>
         </span>
         <!-- <span style="margin-left: 10px">{{ scope.row.date }}</span> -->
-        <span v-else style="padding-left: 20px;">{{scope.row.equip_id}}</span>
+        <span v-else style="padding-left: 20px;">{{scope.row.equip_number}}</span>
       </template>
     </el-table-column>
     <el-table-column
       label="设备名称"
-      width="180">
+      width="140">
       <template slot-scope="scope">
         <span v-if="scope.row.isSet">
             <el-input size="small" v-model="scope.row.equip_name" placeholder="请输入内容" @change="handleEdit(scope.$index, scope.row)">
@@ -42,7 +43,7 @@
 
      <el-table-column
       label="设备品牌"
-      width="120">
+      width="170">
       <template slot-scope="scope">
         <span v-if="scope.row.isSet">
             <el-input size="small" v-model="scope.row.brand" placeholder="请输入内容" @change="handleEdit(scope.$index, scope.row)">
@@ -82,17 +83,17 @@
        >
       <template slot-scope="scope">
         <el-switch v-if="scope.row.isSet"
-          v-model="scope.row.on"
-          active-value="1"
-          inactive-value="0"
+          v-model="scope.row.state"
+          :active-value=1
+          :inactive-value=0
           :disabled="isSwitchDisabled"
           active-text="启用"
           inactive-text="禁用">
         </el-switch>
         <el-switch v-else
-          v-model="scope.row.on"
-          active-value="1"
-          inactive-value="0"
+          v-model="scope.row.state"
+          :active-value=1
+          :inactive-value=0
           :disabled=true
           active-text="启用"
           inactive-text="禁用">
@@ -117,7 +118,7 @@
           type="primary"
           size="mini"
           style="float:left;"
-          @click="handleEdit(scope.$index, scope.row)">修改状态</el-button>
+          @click="handleEdit(scope.$index, scope.row)">修改信息</el-button>
 
         <!-- <el-button
           size="mini"
@@ -144,13 +145,11 @@
 
   <div class="block" align="center" style="margin-top:20px;">
     <el-pagination
-      @size-change="handleSizeChange"
       @current-change="getTableData(endChangePage)"
       :current-page.sync="endChangePage"
       :page-count="pageCount"
       :page-size="size"
-      layout="prev, pager, next, jumper"
-      :total="1000">
+      layout="prev, pager, next, jumper">
     </el-pagination>
     <!-- <span class="demonstration">点击可直接前往</span> -->
   </div>
@@ -161,12 +160,12 @@
 
 <script type="text/ecmascript-6">
     export default {
-        // created() {
-        //   this.getTableData();
-        // },
+        created() {
+          this.getTableData();
+        },
         data() {
             return {
-            equip_id: '',
+            equip_number: '',
             equip_name: '',
             brand:'',
             model:'',
@@ -184,7 +183,7 @@
             currentPage3: 5,
             currentPage4: 4,
 
-            
+            loading:true,
             isSwitchDisabled:true,
             isCancelBtnDisabled:true,
 
@@ -193,68 +192,68 @@
 
             pageCount: 1,
             endChangePage: 1,
-            size: 10,
+            size: 7,
 
-            // tableData:[],
+            tableData:[],
 
-            tableData: [{
-            equip_id: 'C0001',
-            equip_name: '切片机',
-            brand:'世邦工业',
-            model:'60目',
-            location:'E楼',
-            on: '0',
-            isSet:false
-            }, {
-            equip_id: 'C0001',
-            equip_name: '超细粉碎机',
-            brand:'旭重机械',
-            model:'60目',
-            location:'E楼',
-            on: '0',
-            isSet:false
-            }, {
-            equip_id: 'C0001',
-            equip_name: '切片机',
-            brand:'世邦工业',
-            model:'400目',
-            location:'E楼',
-            on: '0',
-            isSet:false
-            }, {
-            equip_id: 'C0001',
-            equip_name: '切片机',
-            brand:'世邦工业',
-            model:'60目',
-            location:'A楼',
-            on: '0',
-            isSet:false
-            },
-            {
-            equip_id: 'C0001',
-            equip_name: '中草药粉碎机',
-            brand:'万顷机械',
-            model:'30目',
-            location:'A楼',
-            on: '0',
-            isSet:false
-            }, {
-            equip_id: 'C0001',
-            equip_name: '制丸机',
-            brand:'世邦工业',
-            model:'100目',
-            location:'E楼',
-            on: '0',
-            isSet:false
-            }, {
-            equip_id: 'C0001',
-            equip_name: '超细粉碎机',
-            brand:'万顷机械',
-            model:'60目',
-            location:'E楼',
-            on: '0',
-            isSet:false
-            }],
+            // tableData: [{
+            // equip_number: 'C0001',
+            // equip_name: '切片机',
+            // brand:'世邦工业',
+            // model:'60目',
+            // location:'E楼',
+            // state: 0,
+            // isSet:false
+            // }, {
+            // equip_number: 'C0001',
+            // equip_name: '超细粉碎机',
+            // brand:'旭重机械',
+            // model:'60目',
+            // location:'E楼',
+            // state: 0,
+            // isSet:false
+            // }, {
+            // equip_number: 'C0001',
+            // equip_name: '切片机',
+            // brand:'世邦工业',
+            // model:'400目',
+            // location:'E楼',
+            // state: 0,
+            // isSet:false
+            // }, {
+            // equip_number: 'C0001',
+            // equip_name: '切片机',
+            // brand:'世邦工业',
+            // model:'60目',
+            // location:'A楼',
+            // state: 0,
+            // isSet:false
+            // },
+            // {
+            // equip_number: 'C0001',
+            // equip_name: '中草药粉碎机',
+            // brand:'万顷机械',
+            // model:'30目',
+            // location:'A楼',
+            // state: '0',
+            // isSet:false
+            // }, {
+            // equip_number: 'C0001',
+            // equip_name: '制丸机',
+            // brand:'世邦工业',
+            // model:'100目',
+            // location:'E楼',
+            // state: 0,
+            // isSet:false
+            // }, {
+            // equip_number: 'C0001',
+            // equip_name: '超细粉碎机',
+            // brand:'万顷机械',
+            // model:'60目',
+            // location:'E楼',
+            // state: 0,
+            // isSet:false
+            // }],
 
 
             }
@@ -275,6 +274,7 @@
                         }
                     }
                 console.log(index, row);
+                // console.log(typeof row);
                 
                 this.isSwitchDisabled = false;
                 this.isCancelBtnDisabled = false;
@@ -298,6 +298,7 @@
                             return false;
                         }
                         else{
+                            this.updateTableData(row);
                             this.$message({
                               type: 'success',
                               message: '保存成功!'
@@ -343,39 +344,96 @@
             //增加新数据
             addRow () {
               var list = {
-                equip_id: this.equip_id,
+                equip_number: this.equip_number,
                 equip_name: this.equip_name,
                 brand:this.brand,
                 model:this.model,
-                location:this.location,
-                on: '0',
-                isSet:false
-                }
-              this.tableData.unshift(list)
+                location:this.location
+                
+                };
+              console.log(list);
+              // this.tableData.push(list);
+              
+              
+              
             },
 
 
 
-            // --------数据请求--------
+            // --------设备基础信息数据请求--------
             async getTableData(page = 1){
                 var res = {};
                 
-                res = await this.$http.get('/user/searchALLEquip',{
+                res = await this.$http.get('/admin/searchAllEquip',{
                 params: {
                   page: page,
                   size: this.size
-                }
-                // headers: { Authorization: 'Basic' + localStorage.getItem('token') }
+                },
+                // headers: { Authorization: 'bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NTU4MTE3MzAsInVzZXJuYW1lIjoiODg4ODg4In0.hePZfgJ_1mj3LV_BpF8JRnRAFPFueh2JbqyrQxFDAyk' + localStorage.getItem('token') }
                 });
-                
+
                 const { data, meta } = res.data
+                console.log(data.equipment.content);
                 if (meta.status === 200) {
-                  this.tableData = data.tableData;
-                  this.pageCount = data.totalPage;
+                  
+                    let array=[];
+                    data.equipment.content.map((item,index)=>{
+                      array.push(
+                          Object.assign({},item,{isSet:false})
+                    )
+                    return array;
+                  })
+                  this.tableData = array;
+                  this.pageCount = data.totalPages;
                   // 有时修改数据后要往后退一页，或者到最后一页，但请求之前total数据没更新，如果新一页多了一条数据，就会跳不过去，所以跳转页面还要在最后重新跳转
                   this.endChangePage = page;
+                  this.loading = false;
                 }
-            }
+                
+            },
+
+            // --------新增设备数据请求--------
+            async addTableData(){
+              var list = {
+                equip_number: this.equip_number,
+                equip_name: this.equip_name,
+                brand:this.brand,
+                model:this.model,
+                location:this.location
+                
+                };
+                var res = {};
+                
+                res = await this.$http.post('/admin/addEquip',list);
+
+                const { data, meta } = res.data
+                console.log(data.equipment);
+                if (meta.status === 200) {
+                  
+                    let array=[];
+                    data.equipment.map((item,index)=>{
+                      array.push(
+                          Object.assign({},item,{isSet:false})
+                    )
+                    return array;
+                  })
+                  this.tableData = array;
+                  this.getTableData();
+                }  
+            },
+
+            // --------用户信息修改请求--------
+            async updateTableData(row){
+                var res = {};
+                //console.log(this.row);
+                res = await this.$http.put('/admin/changeEquipInfo',row);
+
+                const { data, meta } = res.data
+                if (meta.status === 200) {
+                  this.getTableData();
+                  
+                }
+            },
      }
   }
     

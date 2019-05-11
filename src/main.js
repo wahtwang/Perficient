@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import '@/plugins/element'
 import '@/requires/axios'
+import '@/requires/echart'
 import '@/assets/icon/iconfont.css'
 import dateTime from 'vue-date-time-m'
 Vue.component('data-time', dateTime)

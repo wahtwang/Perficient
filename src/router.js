@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/login/Login'
 import Home from '@/components/home/Home'
-import Index from '@/components/index/Index'
+import Index from '@/components/manage/Index'
 import SearchReserve from '@/components/searchReserve/SearchReserve'
 import PersonalMsg from '@/components/personalMsg/PersonalMsg'
 import FuzzySearch from '@/components/fuzzySearch/FuzzySearch'
@@ -11,6 +11,10 @@ import ChangePassword from '@/components/personalMsg/changePassword/ChangePasswo
 import EquipInfo from '@/components/manage/EquipInfo'
 import PermissionEdit from '@/components/manage/PermissionEdit'
 import ProjectInfo from '@/components/manage/ProjectInfo'
+import BackUp from '@/components/manage/BackUp'
+import Log from '@/components/manage/Log'
+import DataDetails from '@/components/manage/DataDetails'
+import HasOlder from '@/components/hasOlder/HasOlder'
 Vue.use(Router)
 
 let router = new Router({
@@ -41,7 +45,11 @@ let router = new Router({
         { path: 'order', component: Order },
         { path: 'equipInfo', component: EquipInfo },
         { path: 'permissionEdit', component: PermissionEdit },
-        { path: 'projectInfo', component: ProjectInfo }
+        { path: 'projectInfo', component: ProjectInfo },
+        { path: 'hasOlder', component: HasOlder },
+        { path: 'backUp', component: BackUp },
+        { path: 'log', component: Log },
+        { path: 'dataDetails', component: DataDetails }
       ]
     }
   ]
