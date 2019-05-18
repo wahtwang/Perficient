@@ -32,7 +32,7 @@
           ></el-input>
         </el-col>
         <el-col :span="3" :xs="0" style="border-left:1px solid #e6e6e6;height:100%;text-align:center;line-height:60px;">
-          <span>{{name ? name:'waht'}}</span>
+          <span>{{name}}</span>
           <a @click="outLogin" href="jiavascript:;" style="margin-left:5px;">注销</a>
         </el-col>
       </el-row>

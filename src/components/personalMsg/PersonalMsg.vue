@@ -3,12 +3,32 @@
     <div class="user-msg-list-container">
       <div class="name-title">
         <span>您好！</span>
-        <span v-text="userMsgList.relName"></span>
+        <span v-text="userMsgList.name"></span>
       </div>
+      <transition name="expend">
+        <div class="item-expend" v-if="slideExpend">
+          <span class="label">修改姓名:</span>
+          <span class="item-val">
+            <el-input placeholder="请输入修改后的内容" size="small" v-model="changeUserMsg.name"></el-input>
+          </span>
+        </div>
+      </transition>
       <div class="item">
         <span class="label">用户名:</span>
-        <span class="item-val" v-text="userMsgList.userId"></span>
+        <span class="item-val" v-text="userMsgList.user_id"></span>
       </div>
+      <div class="item">
+        <span class="label">性别:</span>
+        <span class="item-val" v-text="userMsgList.sex"></span>
+      </div>
+      <transition name="expend">
+        <div class="item-expend" v-if="slideExpend">
+          <span class="label">修改性别:</span>
+          <span class="item-val">
+            <el-input placeholder="请输入修改后的内容" size="small" v-model="changeUserMsg.sex"></el-input>
+          </span>
+        </div>
+      </transition>
       <div @click="passwordSildeDown" class="item" style="cursor:pointer">
         <span class="label">用户密码:</span>
         <span class="item-val" style="vertical-align:middle">
@@ -39,23 +59,23 @@
         <span class="label">部门:</span>
         <span class="item-val" v-text="userMsgList.department"></span>
       </div>
-      <div class="item">
-        <span class="label">职位:</span>
-        <span class="item-val" v-text="userMsgList.position"></span>
-      </div>
-      <div class="item">
-        <span class="label">项目组:</span>
-        <span class="item-val" v-text="userMsgList.project"></span>
-      </div>
+      <transition name="expend">
+        <div class="item-expend" v-if="slideExpend">
+          <span class="label">修改部门:</span>
+          <span class="item-val">
+            <el-input placeholder="请输入修改后的内容" size="small" v-model="changeUserMsg.department"></el-input>
+          </span>
+        </div>
+      </transition>
       <div class="item">
         <span class="label">联系电话:</span>
-        <span class="item-val" v-text="userMsgList.phoneNumber"></span>
+        <span class="item-val" v-text="userMsgList.phone"></span>
       </div>
       <transition name="expend">
         <div class="item-expend" v-if="slideExpend">
           <span class="label">修改电话:</span>
           <span class="item-val">
-            <el-input placeholder="修改后的联系电话" size="small" v-model="changeUserMsg.changePhoneNumber"></el-input>
+            <el-input placeholder="修改后的联系电话" size="small" v-model="changeUserMsg.phone"></el-input>
           </span>
         </div>
       </transition>
@@ -67,7 +87,7 @@
         <div class="item-expend" v-if="slideExpend">
           <span class="label">修改邮箱:</span>
           <span class="item-val">
-            <el-input placeholder="修改后的联系邮箱" size="small" v-model="changeUserMsg.changeEmail"></el-input>
+            <el-input placeholder="修改后的联系邮箱" size="small" v-model="changeUserMsg.email"></el-input>
           </span>
         </div>
       </transition>
@@ -93,12 +113,11 @@ export default {
       changePasswordLabel: '修改密码',
       slideExpendPassword: false,
       userMsgList: {
-        relName: '王煜辉',
-        userId: '603225315',
-        project: '精密器械研究项目',
+        name: '王煜辉',
+        user_id: '603225315',
+        sex: '男',
         department: '第二十督导组',
-        position: '第二十督导组督导',
-        phoneNumber: '15925895807',
+        phone: '15925895807',
         email: '603225315@qq.com'
       },
       passwordArrowClass: 'el-icon-arrow-right arrow',
@@ -108,8 +127,11 @@ export default {
       arrowClass: 'el-icon-arrow-down arrow',
       slideDownText: '修改个人资料',
       changeUserMsg: {
-        changePhoneNumber: '',
-        changeEmain: ''
+        name: '',
+        sex: '',
+        department: '',
+        phone: '',
+        email: ''
       }
     }
   },
@@ -154,6 +176,7 @@ export default {
             type: 'success',
             duration: 1000
           })
+          this.oldPassword = this.newPassword = ''
         } else {
           this.$message({
             message: res.data.meta.message,
@@ -181,7 +204,7 @@ export default {
     async getUserMsg() {
       try {
         var res = await this.$http.get('/user/getUserInfor', {
-          params: { user_id: 888888 }
+          params: { user_id: localStorage.getItem('user_id') }
         })
       } catch (err) {
         this.$message({
@@ -190,11 +213,14 @@ export default {
           duration: 1000
         })
       }
+      if (res.data.meta.status === 200) {
+        this.userMsgList = res.data.data.user
+      }
     },
     async updateUserMsg() {
       try {
         var res = await this.$http.put(
-          'user/changeUserInfor',
+          '/user/changeUserInfo',
           this.changeUserMsg
         )
       } catch (err) {
@@ -209,18 +235,32 @@ export default {
           .toString()
           .slice(err.toString().length - 3, err.toString().length)
       }
-      if (res.data.meta === 200) {
-        this.userMsgList.phoneNumber = changeUserMsg.changePhoneNumber
-        this.userMsgList.email = changeUserMsg.changeEmail
+      if (res.data.meta.status === 200) {
+        this.userMsgList.phone = this.changeUserMsg.phone
+        this.userMsgList.email = this.changeUserMsg.email
+        this.userMsgList.name = this.changeUserMsg.name
+        this.userMsgList.sex = this.changeUserMsg.sex
+        this.userMsgList.department = this.changeUserMsg.department
+        localStorage.setItem('name', this.userMsgList.name)
+        this.$store.state.change += 1
         this.slideExpend = false
         this.rotate()
         this.changeSlideText()
+        this.$message({
+          message: '修改成功',
+          type: 'success',
+          duration: 1000
+        })
       }
     },
     slideDown() {
       if (!this.slideExpend) {
-        this.changeUserMsg.changePhoneNumber = this.userMsgList.phoneNumber
-        this.changeUserMsg.changeEmail = this.userMsgList.email
+        this.changeUserMsg.phone = this.userMsgList.phone
+        this.changeUserMsg.email = this.userMsgList.email
+        this.changeUserMsg.department = this.userMsgList.department
+        this.changeUserMsg.sex = this.userMsgList.sex
+        this.changeUserMsg.name = this.userMsgList.name
+        this.changeUserMsg.user_id = localStorage.getItem('user_id')
         this.slideExpend = true
         this.rotate()
         this.changeSlideText()
