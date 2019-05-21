@@ -103,7 +103,7 @@
         <el-table-column>
           <template slot-scope="props">
             <el-button disabled size="mini" type="primary" v-if="props.row.state !== 1">不可预定</el-button>
-            <el-button @click="toOrder(props.row.equip_id)" size="mini" type="primary" v-if="props.row.state === 1">点击预定</el-button>
+            <el-button @click="toOrder(props.row)" size="mini" type="primary" v-if="props.row.state === 1">点击预定</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -177,7 +177,7 @@
           </el-collapse-item>
         </el-collapse>
         <el-button
-          @click="toOrder(val.equip_id)"
+          @click="toOrder(val)"
           size="mini"
           style="padding:5px 5px;margin-top:3%;display:block;width:100%;"
           type="primary"
@@ -355,8 +355,9 @@ export default {
         this.pageCount = 1
       }
     },
-    toOrder(equip_id) {
-      this.$router.push('/home/order?equip_id=' + equip_id)
+    toOrder(row) {
+      this.$store.state.equip = row
+      this.$router.push('/home/order')
     },
     tableRowClassName({ row, rowIndex }) {
       if (row.state !== 1) {

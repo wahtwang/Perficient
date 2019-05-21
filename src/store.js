@@ -5,7 +5,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    fuzzyEquip: ''
+    fuzzyEquip: '',
+    change: ''
   },
   mutations: {},
   actions: {}

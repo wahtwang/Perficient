@@ -22,7 +22,6 @@ export default {
   },
   data() {
     return {
-      name: localStorage.getItem('name'),
       isShow: '',
       isCollapse: false,
       asideClass: 'home-aside home-aside-click',
@@ -31,6 +30,7 @@ export default {
   },
   created() {
     this.closeCollapse()
+    console.log(this)
   },
   computed: {
     equip: {
@@ -39,6 +39,12 @@ export default {
       },
       set: function(val) {
         this.$store.state.fuzzyEquip = val
+      }
+    },
+    name: {
+      get: function() {
+        this.$store.state.change
+        return localStorage.getItem('name')
       }
     }
   },

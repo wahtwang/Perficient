@@ -41,6 +41,11 @@ export default {
         this.subLoginMsg()
       }
     }
+    document.onkeydown = e => {
+      if (e.keyCode === 39) {
+        this.$router.push('/home')
+      }
+    }
   },
   destroyed() {
     document.onkeydown = null
@@ -69,7 +74,7 @@ export default {
             trigger: 'blur'
           },
           {
-            pattern: /[a-z]+[0-9]+/,
+            pattern: /^(?![0-9]+$)(?![a-z]+$)[0-9a-z]+$/,
             message: '密码由数字和小写字母组成',
             trigger: 'blur'
           }
@@ -97,6 +102,7 @@ export default {
       if (res.data.meta.status === 200) {
         localStorage.setItem('token', res.data.data.token)
         localStorage.setItem('name', res.data.data.username)
+        localStorage.setItem('user_id', this.loginMsg.username)
         switch (res.data.data.promissions) {
           case 1:
             {
