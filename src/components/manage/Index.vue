@@ -1,6 +1,6 @@
 <template>
 <div>
-  <el-row style="padding-bottom:30px;">
+  <el-row style="padding-bottom:30px;" class="web-track">
   <el-col :span="7" v-for="(o, index) in 1"  :offset="index > 0 ? 2 : 0">
     <el-card :body-style="{ padding: '0px' }">
       <img src="../../assets/index/index_grxx.jpg" class="image">
@@ -39,6 +39,48 @@
   </el-col>
 </el-row>
 
+<div class="phone-track">
+  <div id="grxx">
+    <el-card :body-style="{ padding: '0px' }">
+        <img src="../../assets/index/index_grxx.jpg" class="image">
+        <div style="padding: 14px;">
+          <span>个人信息更改快速通道</span>
+          <div class="bottom clearfix">
+          <span class="time">这里是个人信息更改快速通道</span>
+          <el-button type="primary" round size="mini" style="margin-left:15px;float:right;" @click="gotoPersonal">进入</el-button>
+          </div>
+        </div>
+      </el-card>
+  </div>
+
+
+  <div id="mhcx">
+    <el-card :body-style="{ padding: '0px' }">
+        <img src="../../assets/index/index_mhcc.jpg" class="image">
+        <div style="padding: 14px;">
+          <span>模糊查询预约快速通道</span>
+          <div class="bottom clearfix">
+            <span class="time">这里是模糊查询预约快速通道</span>
+            <el-button type="primary" round size="mini" style="margin-left:15px;float:right;" @click="gotoFuzzy">进入</el-button>
+          </div>
+        </div>
+      </el-card>
+  </div>
+
+  <div id="jqcx">
+    <el-card :body-style="{ padding: '0px' }">
+        <img src="../../assets/index/index_jqcc.jpg" class="image">
+        <div style="padding: 14px;">
+          <span>精确查询预约快速通道</span>
+          <div class="bottom clearfix">
+            <span class="time">这里是精确查询预约快速通道</span>
+            <el-button type="primary" round size="mini" style="margin-left:15px;float:right;" @click="gotoSearch">进入</el-button>
+          </div>
+        </div>
+      </el-card>
+  </div>
+</div>
+
 <template>
   <el-carousel indicator-position="outside" style="width:95%;">
     <el-carousel-item v-for="(val) in imgList" :key="val.index">
@@ -76,6 +118,9 @@ export default {
 </script>
 
 <style scoped>
+  .phone-track{
+    display: none;
+  }
   .time {
     font-size: 13px;
     color: #999;
@@ -121,5 +166,22 @@ export default {
   
   .el-carousel__item:nth-child(2n+1) {
     background-color: #d3dce6;
+  }
+
+  @media screen and (max-width: 767px) {
+    .web-track{
+      display: none;
+    }
+    .phone-track{
+      display: block;
+    }
+    #mhcx{
+      margin-top: 15px;
+    }
+    #jqcx{
+      margin-top: 15px;
+    }
+    
+
   }
 </style>

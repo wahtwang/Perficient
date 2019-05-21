@@ -26,7 +26,7 @@
       </template>
     </el-table-column>
 
-     <el-table-column
+     <el-table-column show-overflow-tooltip
       label="操作"
       width="210">
       <template slot-scope="scope">
@@ -34,7 +34,7 @@
       </template>
     </el-table-column>
 
-     <el-table-column
+     <el-table-column show-overflow-tooltip
       label="参数"
       width="380">
       <template slot-scope="scope">
@@ -43,7 +43,8 @@
     </el-table-column>
 
        <el-table-column
-      label="操作时间"
+      label="操作时间" show-overflow-tooltip
+      min-width="100"
       >
       <template slot-scope="scope">
         <span style="padding-left: 20px;">{{scope.row.create_date}}</span>

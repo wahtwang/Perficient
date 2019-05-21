@@ -1,5 +1,5 @@
 <template>
-  <div style="height:100%;">
+  <div style="height:100%;" class="login_bg">
     <el-row align="middle" justify="center" style="height:83%;" type="flex">
       <el-col
         :lg="7"
@@ -15,7 +15,7 @@
             <el-input clearable placeholder="请输入用户名" v-model="loginMsg.username"></el-input>
           </el-form-item>
           <el-form-item prop="password">
-            <el-input clearable placeholder="请输入密码" v-model="loginMsg.password"></el-input>
+            <el-input clearable type="password" placeholder="请输入密码" v-model="loginMsg.password"></el-input>
           </el-form-item>
           <div class="division"></div>
           <el-form-item>
@@ -134,6 +134,10 @@ export default {
 </script>
 
 <style>
+.login_bg{
+  background-image: url("../../assets/projectInfo_bg.jpg");
+  background-size: cover;
+}
 .division {
   height: 1px;
   background-color: #eee;

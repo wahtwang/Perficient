@@ -1,8 +1,8 @@
 <template>
   <el-container style="height:100%;">
-    <el-header class="home-header" style="position:relative;">
+    <el-header class="home-header" style="position:relative;" id="header">
       <div :class="searchBtn" @click="searchBtnM">
-        <i class="el-icon-search" style="font-size: 10px;line-height:15px;vertical-align: text-top;font-weight: 1000;"></i>
+        <i class="el-icon-search" style="font-size: 10px;line-height:15px;vertical-align: text-top;font-weight: 1000;background-color:white;"></i>
       </div>
       <el-col class="menu-btn-col">
         <el-button @click="menuBtn" class="menu-btn">
@@ -38,8 +38,8 @@
       </el-row>
     </el-header>
     <el-container style="height:100%;overflow:hidden;position: relative;">
-      <el-aside :class="asideClass">
-        <el-menu
+      <el-aside :class="asideClass" >
+        <el-menu id="aside"
           :collapse="isCollapse"
           :default-active="$route.path"
           :router="true"
@@ -105,7 +105,7 @@
       <!-- 使router-view width:100%的时候能对照父元素宽度，并且在位移时去掉底部滚动条，并且把原本的内边距去掉，因为子元素为ab时候会从外框定位 -->
       <el-main ref="main" style="position:relative;padding: 0;overflow-x: hidden;">
         <transition name="router">
-          <router-view class="router-container"/>
+          <router-view class="router-container" id="contain"/>
         </transition>
       </el-main>
     </el-container>

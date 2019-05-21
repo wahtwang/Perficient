@@ -1,7 +1,7 @@
 <template>
 <div style="width:100%;">
   <div style="width:100%;">
-    <el-table :data="tableData" :highlight-current-row="isHighlight" class="tb-edit" 
+    <el-table :data="tableData" :highlight-current-row="isHighlight" class="tb-edit" stripe
     style="width: 100%;" @row-click="handleCurrentChange" v-loading="loading">
     <el-table-column
       label="用户编号"
@@ -336,7 +336,7 @@ export default {
               // deleteRow(scope.$index, tableData);
               //  row.splice(index, 1);
               var list = {
-                state: row.state,
+                state: 0,
                 user_id: row.user_id
               }
               console.log(list);
@@ -377,7 +377,7 @@ export default {
                     return array;
                   })
                   this.tableData = array;
-                  this.pageCount = data.totalPages;
+                  this.pageCount = data.totalPage;
                   // 有时修改数据后要往后退一页，或者到最后一页，但请求之前total数据没更新，如果新一页多了一条数据，就会跳不过去，所以跳转页面还要在最后重新跳转
                   this.endChangePage = page;
                   this.loading = false;
@@ -389,7 +389,7 @@ export default {
             async updateTableData(row){
                 var res = {};
                 //console.log(this.row);
-                res = await this.$http.put('/user/changeUserInfor',row);
+                res = await this.$http.put('/superadmin/changeUserPermission',row);
 
                 const { data, meta } = res.data
                 if (meta.status === 200) {
@@ -402,7 +402,7 @@ export default {
             async deleteTableData(list){
                 var res = {};
                 //console.log(this.row);
-                res = await this.$http.delete('/admin/deleteUser',list);
+                res = await this.$http.put('/admin/deleteUser',list);
 
                 const { data, meta } = res.data
                 if (meta.status === 200) {

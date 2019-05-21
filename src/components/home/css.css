@@ -1,3 +1,19 @@
+#header{
+  background-image: url("../../assets/header2.jpg");
+  background-size: cover;
+}
+
+#aside{
+  background-image: url("../../assets/aside1.jpg");
+  background-size: cover;
+}
+
+#contain{
+  background-image: url("../../assets/bg6.jpg");
+  background-size: cover;
+  height: 100%;
+}
+
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   min-height: 400px;
   width: 200px;

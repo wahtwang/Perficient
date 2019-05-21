@@ -93,7 +93,7 @@ export default {
       changePasswordLabel: '修改密码',
       slideExpendPassword: false,
       userMsgList: {
-        relName: '王煜辉',
+        relName: '管理员',
         userId: '603225315',
         project: '精密器械研究项目',
         department: '第二十督导组',
